@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Collar Calculator</title>
+<style>
+ .layout {
+   border: 3px solid black;
+   width:24%
+ }
+ </style>
 <script>
 //Created by Joshua Fulk 2021
 
-function calc() {
+function calcRnd() {
   if (document.getElementById("over").checked) {
     var result =Math.round(((parseFloat(document.getElementById('diam').value)+0.375)*Math.PI + 0.5)*100000.0)/100000.0;
   } else {
@@ -13,29 +18,79 @@ function calc() {
   }
   result = result ? result : 0;
   var roundres = Math.ceil(result*8.0)/8.0;
-  document.getElementById('length').innerHTML = '<br>Length : '+result+' in<br>Approx.: ' + roundres + ' in';
+  document.getElementById('length').innerHTML = 'Length : '+result+' in<br>Approx.: ' + roundres + ' in';
+}
+function calcRect() {
+  var clength = parseFloat(document.getElementById('clength').value);
+  clength = clength ? clength : 0;
+  var cwidth = parseFloat(document.getElementById('cwidth').value);
+  cwidth = cwidth ? cwidth : 0;
+  if (clength!=0 && cwidth!=0) {
+    document.getElementById('l1').innerHTML = ""+ Math.round((clength+0.125)*10000.0)/10000.0;
+    document.getElementById('l2').innerHTML = ""+ Math.round(((clength+0.125)+(cwidth+0.125))*10000.0)/10000.0;
+    document.getElementById('l3').innerHTML = ""+ Math.round((((clength+0.125)*2)+(cwidth+0.125))*10000.0)/10000.0;
+    document.getElementById('l4').innerHTML = ""+ Math.round((((clength+0.125)+(cwidth+0.125))*2)*10000.0)/10000.0;
+    document.getElementById('oalength').innerHTML = Math.round((clength*2+cwidth*2+1.0)*10000.0)/10000.0+" in";
+    }else{
+    document.getElementById('l1').innerHTML = "0";
+    document.getElementById('l2').innerHTML = "0";
+    document.getElementById('l3').innerHTML = "0";
+    document.getElementById('l4').innerHTML = "0";
+    document.getElementById('oalength').innerHTML = "0 in"
+  }
+  
 }
 </script>
 <meta charset="utf-8" />
 <title></title>
 </head>
-<body style="font-family: monospace; font-size:70px">
-<br>
-<div style ="text-align:center; font-size:70px;height:112px">
-Collar Calculator</div>
-<form style ="text-align:center; font-size:55px" onsubmit="calc()" id="form1">
-<div style="height:100px">
-<input type="number" step="0.0001" id="diam" style="width:73%; font-size:50px" onclick="this.value = '';"></input><input type="button" value="Calculate" style="width:25%; font-size:50px" onclick="calc()"></input>
+<body style="font-family: monospace; font-size:60px">
+
+<div style ="text-align:center;font-size:68px">Collar Calculator<hr></div>
+
+<div style ="text-align:center;">
+Round
+</div>
+
+<form style ="text-align:center; font-size:55px" onsubmit="calcRnd()" id="form1">
+  <div style="height:100px">
+    <input type="number" step="0.0001" id="diam" oninput="calcRnd()" style="width:73%; font-size:50px" onclick="this.value = '';"></input><input type="button" value="Calculate" style="width:25%; font-size:50px" onclick="calcRnd()"></input>
   </div>
-  <input type="radio" name="diam" id="over" value="HTML" style="width: 50px;height: 50px;" checked>
+  <input type="radio" name="diam" id="over" value="HTML" style="width: 50px;height: 50px;"  oninput="calcRnd()" checked>
   <label for="over">+0.375</label>
-  <input type="radio" name="diam" id="exact" value="CSS" style="width: 50px;height: 50px;">
+  <input type="radio" name="diam" id="exact" value="CSS" style="width: 50px;height: 50px;"  oninput="calcRnd()">
   <label for="exact">Exact</label><br>
  </form>
-<div id="length"><br>Length : <br>Approx.: </div>
+<div id="length" style="font-size:50px">Length : 0 in<br>Approx.: 0 in</div>
+
+<hr>
+<div style ="text-align:center;">
+Square / Rectangular
+</div>
+
+<form style ="text-align:center; font-size:50px;height:160px;" onsubmit="calcRect()" id="form2">
+  <div style="">
+    L:<input type="number" step="0.0001" id="clength" oninput="document.getElementById('cwidth').value = this.value;calcRect();" style="width:35%; font-size:50px"></input>
+    W:<input type="number" step="0.0001" id="cwidth"  oninput="calcRect()" style="width:35%; font-size:50px"></input><br>
+    <input type="button" value="Calculate" style="width:25%; font-size:50px" onclick="calcRect()"></input>
+  </div>
+ </form>
+<table style="border-collapse: collapse;width:100%;text-align:right; background-color: #cccccc">
+  <tr>
+    <th id="l1" class="layout">0</th>
+    <th id="l2" class="layout">0</th>
+    <th id="l3" class="layout">0</th>
+    <th id="l4" class="layout">0</th>
+    <th  class="layout" style="width:5%"></th>
+  </tr>
+</table>
+<div id="oalength" style ="text-align:center;">0 in</div>
+
+</div>
 
 </body>
 <script>
-document.getElementById("form1").onsubmit = function (event) { event.preventDefault(); calc(); }
+  document.getElementById("form1").onsubmit = function (event) { event.preventDefault(); calcRnd(); };
+  document.getElementById("form2").onsubmit = function (event) { event.preventDefault(); calcRect(); };
 </script>
 </html>
