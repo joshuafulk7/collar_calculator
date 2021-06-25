@@ -4,11 +4,37 @@
 <style>
  .layout {
    border: 3px solid black;
-   width:24%
+   width:24%;
+   font-size:50px;
  }
  </style>
 <script>
 //Created by Joshua Fulk 2021
+
+function rndsel() {
+document.getElementById('rndsel').style.backgroundColor = '#aaaaff';
+document.getElementById('sqsel').style.backgroundColor = '#dddddd';
+document.getElementById('squarecalc').style.visibility = 'hidden';
+document.getElementById('roundcalc').style.visibility = 'visible';
+document.getElementById('l1').style.border='0px';
+document.getElementById('l2').style.border='0px';
+document.getElementById('l3').style.border='0px';
+document.getElementById('l4').style.border='0px';
+document.getElementById('l0').style.border='0px';
+}
+
+function sqsel() {
+document.getElementById('rndsel').style.backgroundColor = '#dddddd';
+document.getElementById('sqsel').style.backgroundColor = '#aaaaff';
+document.getElementById('squarecalc').style.visibility = 'visible';
+document.getElementById('roundcalc').style.visibility = 'hidden';
+document.getElementById('l1').style.border='3px solid black';
+document.getElementById('l2').style.border='3px solid black';
+document.getElementById('l3').style.border='3px solid black';
+document.getElementById('l4').style.border='3px solid black';
+document.getElementById('l0').style.border='3px solid black';
+}
+
 
 function calcRnd() {
   if (document.getElementById("over").checked) {
@@ -26,10 +52,10 @@ function calcRect() {
   var cwidth = parseFloat(document.getElementById('cwidth').value);
   cwidth = cwidth ? cwidth : 0;
   if (clength!=0 && cwidth!=0) {
-    document.getElementById('l1').innerHTML = ""+ Math.round((clength+0.125)*10000.0)/10000.0;
-    document.getElementById('l2').innerHTML = ""+ Math.round(((clength+0.125)+(cwidth+0.125))*10000.0)/10000.0;
-    document.getElementById('l3').innerHTML = ""+ Math.round((((clength+0.125)*2)+(cwidth+0.125))*10000.0)/10000.0;
-    document.getElementById('l4').innerHTML = ""+ Math.round((((clength+0.125)+(cwidth+0.125))*2)*10000.0)/10000.0;
+    document.getElementById('l4').innerHTML = ""+ Math.round((clength+0.125)*10000.0)/10000.0;
+    document.getElementById('l3').innerHTML = ""+ Math.round(((clength+0.125)+(cwidth+0.125))*10000.0)/10000.0;
+    document.getElementById('l2').innerHTML = ""+ Math.round((((clength+0.125)*2)+(cwidth+0.125))*10000.0)/10000.0;
+    document.getElementById('l1').innerHTML = ""+ Math.round((((clength+0.125)+(cwidth+0.125))*2)*10000.0)/10000.0;
     document.getElementById('oalength').innerHTML = Math.round((clength*2+cwidth*2+1.0)*10000.0)/10000.0+" in";
     }else{
     document.getElementById('l1').innerHTML = "0";
@@ -44,30 +70,30 @@ function calcRect() {
 <meta charset="utf-8" />
 <title></title>
 </head>
-<body style="font-family: monospace; font-size:60px">
+<body style="font-family: monospace; font-size:60px" onload="rndsel()">
 
 <div style ="text-align:center;font-size:68px">Collar Calculator<hr></div>
 
-<div style ="text-align:center;">
-Round
-</div>
-
+<table style="border-collapse: collapse;width:70%;text-align:center;margin-left:auto;margin-right:auto;">
+  <th style="border: 3px solid black;background-color:#aaaaff" id="rndsel" onclick="rndsel()">Round</th>
+  <th style="border: 3px solid black;background-color:#dddddd;width:50%;" id="sqsel" onclick="sqsel()">Sq/Rect</th>
+  </table>
+<br>
+<div id="roundcalc">
 <form style ="text-align:center; font-size:55px" onsubmit="calcRnd()" id="form1">
   <div style="height:100px">
     <input type="number" step="0.0001" id="diam" oninput="calcRnd()" style="width:73%; font-size:50px" onclick="this.value = '';"></input><input type="button" value="Calculate" style="width:25%; font-size:50px" onclick="calcRnd()"></input>
   </div>
-  <input type="radio" name="diam" id="over" value="HTML" style="width: 50px;height: 50px;"  oninput="calcRnd()" checked>
+  <input type="radio" name="diam" id="over"  style="width: 50px;height: 50px;"  oninput="calcRnd()" checked>
   <label for="over">+0.375</label>
-  <input type="radio" name="diam" id="exact" value="CSS" style="width: 50px;height: 50px;"  oninput="calcRnd()">
+  <input type="radio" name="diam" id="exact" style="width: 50px;height: 50px;"  oninput="calcRnd()">
   <label for="exact">Exact</label><br>
  </form>
 <div id="length" style="font-size:50px">Length : 0 in<br>Approx.: 0 in</div>
-
-<hr>
-<div style ="text-align:center;">
-Square / Rectangular
 </div>
 
+
+<div id = "squarecalc" style="position:relative;top:-283px">
 <form style ="text-align:center; font-size:50px;height:160px;" onsubmit="calcRect()" id="form2">
   <div style="">
     L:<input type="number" step="0.0001" id="clength" oninput="document.getElementById('cwidth').value = this.value;calcRect();" style="width:35%; font-size:50px"></input>
@@ -75,17 +101,18 @@ Square / Rectangular
     <input type="button" value="Calculate" style="width:25%; font-size:50px" onclick="calcRect()"></input>
   </div>
  </form>
-<table style="border-collapse: collapse;width:100%;text-align:right; background-color: #cccccc">
+<table style="border-collapse: collapse;width:100%;text-align:left; background-color: #cccccc">
   <tr>
+    <th id="l0" class="layout" style="width:5%"></th>
     <th id="l1" class="layout">0</th>
     <th id="l2" class="layout">0</th>
     <th id="l3" class="layout">0</th>
     <th id="l4" class="layout">0</th>
-    <th  class="layout" style="width:5%"></th>
   </tr>
 </table>
 <div id="oalength" style ="text-align:center;">0 in</div>
 
+</div>
 </div>
 
 </body>
